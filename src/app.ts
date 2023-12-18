@@ -5,6 +5,11 @@ import routes from './routes'
 import { RESPONSE_STATUS } from './utils/enums'
 import cors from 'cors'
 import getIP from './middlewares/ip-getter'
+import { MariaConnection } from './connections/maria'
+import { MongoConnection } from './connections/mongo'
+
+MariaConnection.connect()
+MongoConnection.connect()
 
 const app: Express = express()
 
@@ -29,7 +34,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 app.use((req: Request, res: Response) => {
 	return res.status(HttpStatus.NOT_FOUND).json({
 		status: RESPONSE_STATUS.ERROR,
-		message: 'Request not found.'
+		message: 'Request not found',
+		url: req.originalUrl
 	})
 })
 

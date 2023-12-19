@@ -4,25 +4,6 @@ import { Customers } from '../tlibrary/typeorm-models/customer-model'
 import config from '../config'
 import { Logger } from '../services/logger'
 
-// const AppDataSource = new DataSource({
-// 	type: 'mariadb',
-// 	host: config.MARIA.HOST,
-// 	port: config.MARIA.PORT,
-// 	username: config.MARIA.USER,
-// 	password: config.MARIA.PASS,
-// 	database: config.MARIA.NAME,
-// 	entities: [Customers],
-// 	logging: false
-// })
-
-// AppDataSource.initialize()
-// 	.then(() => {
-// 		Logger.info(`${config.DB_TYPE} connected`)
-// 	})
-// 	.catch(error => Logger.error(error))
-
-// export { AppDataSource }
-
 export class MariaConnection {
 	private static db: DataSource
 
@@ -46,10 +27,13 @@ export class MariaConnection {
 		}
 	}
 
-	public static async connect() {
+	public static async connect(): Promise<void> {
 		if (!this.db || !this.db.isInitialized) {
-			return this.createNewInstance()
+			this.createNewInstance()
 		}
+	}
+
+	public static getDB(): DataSource {
 		return this.db
 	}
 }

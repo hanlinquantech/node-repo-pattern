@@ -2,6 +2,7 @@ import { DeepPartial, EntityTarget, FindManyOptions, FindOptionsWhere, ObjectLit
 import { TRepository } from './base-repository'
 import { MariaConnection } from '../connections/maria'
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
+import { Inject, Injectable } from '@nestjs/common'
 
 export class TypeORMRepository<TEntity extends ObjectLiteral> implements TRepository<TEntity> {
 	private readonly repository: Repository<TEntity>
@@ -37,9 +38,9 @@ export class TypeORMRepository<TEntity extends ObjectLiteral> implements TReposi
 	}
 }
 
-// @Injectable()
-// export class NestCustomerRepository extends CustomerTypeORMRepository {
-// 	constructor(@InjectRepository(Customers) repository: Repository<Customers>) {
-// 		super(repository)
-// 	}
-// }
+@Injectable()
+export class NestTypeORMRepository<TEntity extends ObjectLiteral> extends TypeORMRepository<TEntity> {
+	constructor(@Inject('Entity') entity: EntityTarget<TEntity>) {
+		super(entity)
+	}
+}

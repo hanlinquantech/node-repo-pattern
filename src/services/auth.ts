@@ -8,8 +8,10 @@ import config from '../config'
 import { TRepository } from '../tlibrary/base-repository'
 import { MongoRepository } from '../tlibrary/mongo-repository'
 import CustomerModel from '../tlibrary/mongo-models/customer-model'
+// import { TypeORMRepository } from '../tlibrary/typeorm-repository'
 
 const customerRepository: TRepository<Customers> = new MongoRepository(CustomerModel)
+// const customerRepository: TRepository<Customers> = new TypeORMRepository(Customers)
 
 export const authLogin = async (payload: IAuthCustomer): Promise<string> => {
 	const customer = await customerRepository.findOne({ user: payload.user })

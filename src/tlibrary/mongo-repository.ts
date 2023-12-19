@@ -1,3 +1,4 @@
+import { Inject, Injectable } from '@nestjs/common'
 import { TRepository } from './base-repository'
 import mongoose, { Document, FilterQuery, Types, UpdateQuery } from 'mongoose'
 
@@ -34,9 +35,9 @@ export class MongoRepository<TModel> implements TRepository<TModel> {
 	}
 }
 
-// @Injectable()
-// export class NestCustomerRepository extends CustomerMongoRepository {
-// 	constructor(@InjectRepository(Customers) repository: mongoose.Model<Customers>) {
-// 		super(repository)
-// 	}
-// }
+@Injectable()
+export class NestMongoRepository<TModel> extends MongoRepository<TModel> {
+	constructor(@Inject('Model') model: mongoose.Model<TModel>) {
+		super(model)
+	}
+}
